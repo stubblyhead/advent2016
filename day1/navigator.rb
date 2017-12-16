@@ -48,7 +48,6 @@ locations = []
 
 File.open('./input') { |file| dirs = file.readline.chomp.split(', ') }
 
-dirs = %w[R8 R4 R4 R8]
 
 hq = Walker.new()
 
@@ -57,3 +56,13 @@ dirs.each do |i|
 end
 
 puts "#{hq.x.abs + hq.y.abs} steps from start to final position"
+
+repeat_step = -1
+
+hq.locations.reverse.each do |loc|
+  if hq.locations.count(loc) > 1
+    repeat_step = [repeat_step, hq.locations.reverse.index(loc)].max
+  end
+end
+repeat_location = hq.locations.reverse[repeat_step]
+puts "#{repeat_location[0].abs + repeat_location[1].abs} steps to first revisited location"
