@@ -55,3 +55,5 @@ hq = Walker.new()
 dirs.each do |i|
   hq.walk(i)
 end
+
+puts "#{hq.x.abs + hq.y.abs} steps from start to final position"
