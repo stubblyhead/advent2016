@@ -1,8 +1,9 @@
 class Keypad
-  attr_reader :button
+  attr_reader :button, :sequence
 
   def initialize
     @button = 5
+    @sequence = []
   end
 
   def next(directions)
@@ -85,5 +86,13 @@ class Keypad
         end
       end
     end
+    @sequence.push(@button)
   end
 end
+
+dirs = %w[ULL RRDDD LURDL UUUUD]
+keys = Keypad.new
+
+dirs.each { |i| keys.next(i) }
+
+puts keys.sequence.join
