@@ -34,7 +34,10 @@ class Walker
   end
 end
 
-dirs = %w[R2 L3]
+dirs = []
+
+File.open('./input') { |file| dirs = file.readline.chomp.split(', ') }
+
 hq = Walker.new()
 
 dirs.each { |i| hq.walk(i) }
