@@ -90,7 +90,11 @@ class Keypad
   end
 end
 
-dirs = %w[ULL RRDDD LURDL UUUUD]
+dirs = []
+
+File.open('./input') do |file|
+  file.each_line { |line| dirs.push(line.chomp) }
+end
 keys = Keypad.new
 
 dirs.each { |i| keys.next(i) }
