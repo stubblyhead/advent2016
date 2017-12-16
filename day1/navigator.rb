@@ -33,3 +33,10 @@ class Walker
     end
   end
 end
+
+dirs = %w[R2 L3]
+hq = Walker.new()
+
+dirs.each { |i| hq.walk(i) }
+
+puts hq.x.abs + hq.y.abs
