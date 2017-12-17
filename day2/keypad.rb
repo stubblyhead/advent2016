@@ -121,7 +121,6 @@ File.open('./input') do |file|
   file.each_line { |line| dirs.push(line.chomp) }
 end
 keys = Keypad.new
-dirs = %w[ULL RRDDD LURDL UUUUD]
 
 dirs.each { |i| keys.next(i) }
 
