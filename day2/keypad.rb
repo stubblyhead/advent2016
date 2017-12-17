@@ -11,62 +11,60 @@ class Keypad
       case @button
       when '1'
         case i
-        when 'R'
-          @button = '2'
         when 'D'
-          @button = '4'
+          @button = '3'
         end
       when '2'
         case i
         when 'R'
           @button = '3'
-        when 'L'
-          @button = '1'
         when 'D'
-          @button = '5'
+          @button = '6'
         end
       when '3'
         case i
         when 'L'
           @button = '2'
         when 'D'
-          @button = '6'
+          @button = '7'
+        when 'U'
+          @button = '1'
+        when 'R'
+          @button = '4'
         end
       when '4'
         case i
-        when 'R'
-          @button = '5'
-        when 'U'
-          @button = '1'
+        when 'L'
+          @button = '3'
         when 'D'
-          @button = '7'
+          @button = '8'
         end
       when '5'
         case i
         when 'R'
           @button = '6'
-        when 'L'
-          @button = '4'
-        when 'D'
-          @button = '8'
-        when 'U'
-          @button = '2'
         end
       when '6'
         case i
         when 'U'
-          @button = '3'
+          @button = '2'
         when 'L'
           @button = '5'
         when 'D'
-          @button = '9'
+          @button = 'A'
+        when 'R'
+          @button = '7'
         end
       when '7'
         case i
         when 'U'
-          @button = '4'
+          @button = '3'
         when 'R'
           @button = '8'
+        when 'L'
+          @button = '6'
+        when 'D'
+          @button = 'B'
         end
       when '8'
         case i
@@ -75,15 +73,42 @@ class Keypad
         when 'L'
           @button = '7'
         when 'U'
-          @button = '5'
+          @button = '4'
+        when 'D'
+          @button = 'C'
         end
       when '9'
         case i
-        when 'U'
-          @button = '6'
         when 'L'
           @button = '8'
         end
+      when 'A'
+        case i
+        when 'U'
+          @button = 'A'
+        when 'R'
+          @button = 'D'
+        end
+      when 'B'
+        case i
+        when 'R'
+          @button = 'C'
+        when 'L'
+          @button = 'A'
+        when 'U'
+          @button = '7'
+        when 'D'
+          @button = 'D'
+        end
+      when 'C'
+        case i
+        when 'U'
+          @button = '8'
+        when 'L'
+          @button = 'B'
+        end
+      when 'D'
+        @button = 'B' if i == 'U'
       end
     end
     @sequence += @button
@@ -96,7 +121,8 @@ File.open('./input') do |file|
   file.each_line { |line| dirs.push(line.chomp) }
 end
 keys = Keypad.new
+dirs = %w[ULL RRDDD LURDL UUUUD]
 
 dirs.each { |i| keys.next(i) }
 
-puts keys.sequence.join
+puts keys.sequence
