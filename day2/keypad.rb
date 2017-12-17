@@ -85,9 +85,9 @@ class Keypad
       when 'A'
         case i
         when 'U'
-          @button = 'A'
+          @button = '6'
         when 'R'
-          @button = 'D'
+          @button = 'B'
         end
       when 'B'
         case i
