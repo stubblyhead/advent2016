@@ -1,5 +1,3 @@
-require 'pry'
-
 class Room
   attr_reader :name, :sector_id, :checksum
   def initialize(name, sector_id, checksum)
@@ -30,10 +28,23 @@ class Room
   def is_real?
     return @checksum == calc_checksum
   end
+
+  def decrypt_name
+    decrypted = ''
+    @name.each_byte do |byte|
+      if byte == 45
+        decrypted += ' '
+      else
+        decrypt_byte = ((byte - 97 + sector_id) % 26) + 97
+        decrypted += decrypt_byte.chr
+      end
+    end
+    return decrypted
+  end
 end
 
 rooms = []
-File.open('./testcase') do |file|
+File.open('./input') do |file|
   file.each_line do |line|
     name_and_id, checksum = line.split('[')
     checksum.chomp!.chop!
@@ -45,6 +56,33 @@ end
 
 sector_sum = 0
 
-rooms.each { |i| sector_sum += i.sector_id if i.is_real? }
+rooms.each do |i|
+  if i.is_real?
+    sector_sum += i.sector_id
+  end
 
-puts sector_sum
+end
+
+puts "sum of real room sector IDs is #{sector_sum}"
+
+north_pole_candidates = []
+rooms.each do |i|
+  candidate = true
+  decrypt_name = i.decrypt_name
+  candidate = false if decrypt_name.index('rabbit')
+  candidate = false if decrypt_name.index('bunny')
+  candidate = false if decrypt_name.index('grass')
+  candidate = false if decrypt_name.index('fuzzy')
+  candidate = false if decrypt_name.index('dye')
+  candidate = false if decrypt_name.index('jellybean')
+  candidate = false if decrypt_name.index('egg')
+  candidate = false if decrypt_name.index('basket')
+  candidate = false if decrypt_name.index('chocolate')
+  candidate = false if decrypt_name.index('flower')
+  candidate = false if decrypt_name.index('candy')
+  candidate = false if decrypt_name.index('scavenger')
+
+  north_pole_candidates.push([decrypt_name, i.sector_id]) if candidate
+end
+
+north_pole_candidates.each { |i| puts i }
