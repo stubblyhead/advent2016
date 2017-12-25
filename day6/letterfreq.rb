@@ -1,6 +1,4 @@
-require 'pry'
-
-words = File.readlines('./testcase')
+words = File.readlines('./input')
 most_frequent = ''
 
 (0..words[0].length-1).each do |pos|
