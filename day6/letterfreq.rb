@@ -6,7 +6,7 @@ most_frequent = ''
   words.each do |word|
     histogram[word[pos]] += 1
   end
-  most_frequent += histogram.key(histogram.values.max)
+  most_frequent += histogram.key(histogram.values.min)
 end
 
 puts most_frequent
