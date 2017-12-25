@@ -13,11 +13,11 @@ class Room
     longchecksum = ''
     nameletters = @name.gsub('-','')
     nameletters.each_char { |i| lettercounts[i] += 1 }
-    lettercounts.values.each.uniq do |count|
-      puts "gettings letters that occur #{count} times"
+    lettercounts.values.uniq.sort.reverse.each do |count|
+      #puts "gettings letters that occur #{count} times"
       thiscount = ''
       while lettercounts.key(count)
-        puts "adding #{lettercounts.key(count)}"
+        #puts "adding #{lettercounts.key(count)}"
         thiscount += lettercounts.key(count)
         lettercounts.delete(thiscount[-1])
       end
