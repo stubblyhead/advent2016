@@ -1,6 +1,6 @@
 require 'digest'
 
-door_id = 'abc'
+door_id = 'ojvtpuvg'
 index = 0
 password = '        '
 
