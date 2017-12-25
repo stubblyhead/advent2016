@@ -42,3 +42,9 @@ File.open('./testcase') do |file|
     rooms.push(Room.new(name,id,checksum))
   end
 end
+
+sector_sum = 0
+
+rooms.each { |i| sector_sum += i.sector_id if i.is_real? }
+
+puts sector_sum
