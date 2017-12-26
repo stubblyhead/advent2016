@@ -1,4 +1,4 @@
-addresses = File.readlines('./testcase')
+addresses = File.readlines('./input')
 matches = []
 
 addresses.each do |line|
