@@ -1,4 +1,4 @@
-addresses = File.readlines('./input')
+addresses = File.readlines('./testcase')
 matches = []
 
 addresses.each do |line|
@@ -10,7 +10,7 @@ addresses.each do |line|
 end
 
 addresses.each do |line|
-  addresses.delete(line) if line.match(/\[(\w)(\w)\2\1\]/)
+  addresses.delete(line) if line.match(/\[.*(\w)(\w)\2\1.*\]/)
 end
 
 puts addresses.length
