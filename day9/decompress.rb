@@ -1,7 +1,7 @@
 require 'pry'
 #binding.pry
 
-compressed = 'X(8x2)(3x3)ABCY'
+compressed = File.readlines('./input', chomp: true)[0]
 idx = 0
 decompressed = ''
 
