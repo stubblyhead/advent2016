@@ -1,7 +1,7 @@
 require 'pry'
-binding.pry
+#binding.pry
 
-compressed = 'ADVENT'
+compressed = 'X(8x2)(3x3)ABCY'
 idx = 0
 decompressed = ''
 
@@ -11,8 +11,9 @@ until compressed == ''
   decompressed += next_part
   marker, paren, compressed = compressed.partition(')')
   length, repeats = marker.split('x')
-  repeats.times { decompressed += compressed[0,length] } if repeats  #repeats and lentgth are nil on last chunk, so skip this step and next
-  compressed = compressed[length..-1] if length
+  repeats.to_i.times { decompressed += compressed[0,length.to_i] } if repeats  #repeats and lentgth are nil on last chunk, so skip this step and next
+  compressed = compressed[length.to_i..-1] if length
 end
 
-puts decompressed.length
+
+puts "final string is #{decompressed}\nwhich is #{decompressed.length} characters long"
