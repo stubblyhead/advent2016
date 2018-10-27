@@ -16,13 +16,13 @@ class Screen
   end
 
   def rotate_row(row, shift)
-    @pixels[row].shift!(shift - 1)
+    @pixels[row].rotate!(-shift)
   end
 
   def rotate_column(col, shift)
     temp_col = []
     @pixels.each { |i| temp_col.push(i[col]) }
-    temp_col.shift!(shift-1)
+    temp_col.rotate!(-shift)
     @pixels.each_index { |i| @pixels[i][col] = temp_col[i] }
   end
 end
