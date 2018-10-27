@@ -1,6 +1,6 @@
 require 'pry'
 
-addresses = File.readlines('./testcase2', chomp: true)
+addresses = File.readlines('./input', chomp: true)
 matches = []
 
 addresses.each do |line|
@@ -62,4 +62,3 @@ addresses.each do |line|
 end
 matches.uniq!
 puts "#{matches.length} SSL addresses"
-p matches
