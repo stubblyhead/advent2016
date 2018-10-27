@@ -33,8 +33,8 @@ class Screen
   end
 end
 
-instructions = File.readlines('./testcase', chomp: true)
-lcd = Screen.new(3,7)
+instructions = File.readlines('./input', chomp: true)
+lcd = Screen.new(6,50)
 instructions.each do |line|
   parts = line.split
   case parts[0]
