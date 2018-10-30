@@ -1,26 +1,25 @@
 require 'pry'
 #binding.pry
 
-compressed = File.readlines('./input', chomp: true)[0]
+compressed = '(25x3)(3x3)ABC(2x3)XY(5x2)PQRSTX(18x9)(3x2)TWO(5x7)SEVEN' #File.readlines('./input', chomp: true)[0]
 
 
 def decompress(compressed)
-  decompressed = ''
-  until compressed == ''
-
+  if compressed.index('(')
     next_part, paren, compressed = compressed.partition('(')
-    decompressed += next_part
     marker, paren, compressed = compressed.partition(')')
     length, repeats = marker.split('x')
-    repeats.to_i.times { decompressed += compressed[0,length.to_i] } if repeats  #repeats and lentgth are nil on last chunk, so skip this step and next
-    compressed = compressed[length.to_i..-1] if length
+    compressed = compressed[0, length.to_i] * repeats.to_i + compressed[length.to_i..-1]
+    decompressed = next_part + decompress(compressed)
+  else
+    decompressed = compressed
   end
   decompressed
 end
 
 decompressed = decompress(compressed)
 
-puts "final v1 string is #{decompressed}\nwhich is #{decompressed.length} characters long"
+puts "final v2 string is #{decompressed.length} characters long"
 
 # while decompressed.index('(')  #for part two just keep going until there's no more parens
 #   decompressed = decompress(decompressed)
