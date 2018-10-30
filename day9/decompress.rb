@@ -22,8 +22,8 @@ decompressed = decompress(compressed)
 
 puts "final v1 string is #{decompressed}\nwhich is #{decompressed.length} characters long"
 
-while decompressed.index('(')  #for part two just keep going until there's no more parens
-  decompressed = decompress(decompressed)
-end
-
-puts "final v2 string is #{decompressed}\nwhich is #{decompressed.length} characters long"
+# while decompressed.index('(')  #for part two just keep going until there's no more parens
+#   decompressed = decompress(decompressed)
+# end
+#
+# puts "final v2 string is #{decompressed}\nwhich is #{decompressed.length} characters long"
