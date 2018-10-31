@@ -1,3 +1,6 @@
+require 'pry'
+binding.pry
+
 class Bot
   attr_reader :chips, :id
 
@@ -66,23 +69,23 @@ while all_instructions.length > 0
       if outputs[low_dest] == nil
         outputs[low_dest] = Output.new
       end
-      bots[bot].give_value(bots[bot].min,outputs[low_dest])
+      bots[bot].give_value(bots[bot].chips.min,outputs[low_dest])
     else
       if bots[low_dest] == nil
         bots[low_dest] = Bot.new(low_dest)
       end
-      bots[bot].give_value(bots[bot].min,bots[low_dest])
+      bots[bot].give_value(bots[bot].chips.min,bots[low_dest])
     end
-    if high_dest_type 'output'
+    if high_dest_type == 'output'
       if outputs[high_dest] == nil
         outputs[high_dest] = Output.new
       end
-      bots[bot].give_value(bots[bot].max,outputs[low_dest])
+      bots[bot].give_value(bots[bot].chips.max,outputs[high_dest])
     else
-      if bots[bot] == nil
-        bots[bot] = Bot.new(bot)
+      if bots[high_dest] == nil
+        bots[high_dest] = Bot.new(high_dest)
       end
-      bots[bot].give_value(bots[bot].max,bots[low_dest])
+      bots[bot].give_value(bots[bot].chips.max,bots[high_dest])
     end
     all_instructions.delete(parts[0])
   end
