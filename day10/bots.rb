@@ -66,6 +66,9 @@ while all_instructions.length > 0
     low_dest = parts[3].to_i
     high_dest_type = parts[4]
     high_dest = parts[5].to_i
+    if bots[bot] == nil
+      bots[bot] = Bot.new(bot)
+    end
     next if bots[bot].chips.length < 2
     if low_dest_type == 'output'
       if outputs[low_dest] == nil
