@@ -56,8 +56,9 @@ all_instructions[0,last_grab].each do |i|
   bots[bot].grab_value(value)
 end
 
+all_instructions = all_instructions[last_grab..-1]
 while all_instructions.length > 0
-  all_instructions[last_grab..-1].each do |i|
+  all_instructions.each do |i|
     parts = i.match(/bot (\d+) gives low to (\w+) (\d+) and high to (\w+) (\d+)/)
     bot = parts[1]
     low_dest_type = parts[2]
