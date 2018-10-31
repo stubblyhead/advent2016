@@ -91,3 +91,5 @@ while all_instructions.length > 0
     all_instructions.delete(parts[0])
   end
 end
+
+p bots
