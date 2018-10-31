@@ -1,5 +1,5 @@
 require 'pry'
-binding.pry
+#binding.pry
 
 class Bot
   attr_reader :chips, :id
@@ -27,6 +27,7 @@ class Bot
 
   def grab_value(value)
     @chips.push(value)
+    watch_value
   end
 end
 
@@ -49,7 +50,7 @@ bots = {}
 outputs = {}
 all_instructions[0,last_grab].each do |i|
   parts = i.split
-  value, bot = parts[1], parts[5]
+  value, bot = parts[1].to_i, parts[5].to_i
   if bots[bot] == nil
     bots[bot] = Bot.new(bot)
   end
@@ -60,11 +61,11 @@ all_instructions = all_instructions[last_grab..-1]
 while all_instructions.length > 0
   all_instructions.each do |i|
     parts = i.match(/bot (\d+) gives low to (\w+) (\d+) and high to (\w+) (\d+)/)
-    bot = parts[1]
+    bot = parts[1].to_i
     low_dest_type = parts[2]
-    low_dest = parts[3]
+    low_dest = parts[3].to_i
     high_dest_type = parts[4]
-    high_dest = parts[5]
+    high_dest = parts[5].to_i
     next if bots[bot].chips.length < 2
     if low_dest_type == 'output'
       if outputs[low_dest] == nil
@@ -91,5 +92,3 @@ while all_instructions.length > 0
     all_instructions.delete(parts[0])
   end
 end
-
-p bots
