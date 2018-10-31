@@ -26,4 +26,4 @@ while decompressed.index('(')  #for part two just keep going until there's no mo
   decompressed = decompress(decompressed)
 end
 
-puts "final v2 string is #{decompressed}\nwhich is #{decompressed.length} characters long"
+puts "final v2 string is #{decompressed.length} characters long"
