@@ -95,3 +95,5 @@ while all_instructions.length > 0
     all_instructions.delete(parts[0])
   end
 end
+
+puts outputs[0].chips[0]*outputs[1].chips[0]*outputs[2].chips[0]
