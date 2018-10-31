@@ -20,7 +20,7 @@ class Bot
   end
 
   def watch_value
-    if @chips.index(2) and @chips.index(5)
+    if @chips.index(61) and @chips.index(17)
       puts "bot #{@id} reporting for duty!"
     end
   end
@@ -44,7 +44,7 @@ class Output
 end
 
 
-all_instructions = File.readlines('./testcase', chomp: true).sort.reverse
+all_instructions = File.readlines('./input', chomp: true).sort.reverse
 last_grab = all_instructions.index { |i| i.match(/^bot.*/) }
 bots = {}
 outputs = {}
