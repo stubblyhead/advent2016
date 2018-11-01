@@ -1,4 +1,7 @@
-class Registers
+require 'pry'
+#binding.pry
+
+class Processor
   attr_reader :registers, :instructions
 
   def initialize(instructions)
@@ -10,7 +13,7 @@ class Registers
 
   def cpy(x, y)
     x = x.to_i if x.match(/\d+/)
-    x = @registers[x] unless x.class.to_s = 'Integer'
+    x = @registers[x] unless x.class.to_s == 'Integer'
     @registers[y] = x
     @pointer += 1
   end
@@ -34,8 +37,13 @@ class Registers
   end
 
   def run
-    until pointer >= @registers.length
-      self.send(*(@registers[@pointer]))
+    until @pointer >= @registers.length
+      self.send(*@instructions[@pointer].split)
     end
   end
 end
+
+instructions = File.readlines('./testcase', :chomp => true)
+proc = Processor.new(instructions)
+proc.run
+puts proc.registers['a']
