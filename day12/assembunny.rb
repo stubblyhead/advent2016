@@ -1,5 +1,5 @@
 require 'pry'
-#binding.pry
+binding.pry
 
 class Processor
   attr_reader :registers, :instructions
@@ -32,18 +32,18 @@ class Processor
     offset = 1
     x = x.to_i if x.match(/\d+/)
     x = @registers[x] unless x.class.to_s == 'Integer'
-    offset = y if x != 0
+    offset = y.to_i if x != 0
     @pointer += offset
   end
 
   def run
-    until @pointer >= @registers.length
+    until @pointer >= @instructions.length
       self.send(*@instructions[@pointer].split)
     end
   end
 end
 
-instructions = File.readlines('./testcase', :chomp => true)
+instructions = File.readlines('./input', :chomp => true)
 proc = Processor.new(instructions)
 proc.run
 puts proc.registers['a']
