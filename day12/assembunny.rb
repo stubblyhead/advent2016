@@ -1,14 +1,15 @@
 require 'pry'
-binding.pry
+#binding.pry
 
 class Processor
   attr_reader :registers, :instructions
 
-  def initialize(instructions)
+  def initialize(instructions, ignition)
     @instructions = instructions
     @registers = {}
     ('a'..'d').each { |i| @registers[i] = 0 }
     @pointer = 0
+    @registers['c'] = 1 if ignition
   end
 
   def cpy(x, y)
@@ -44,6 +45,10 @@ class Processor
 end
 
 instructions = File.readlines('./input', :chomp => true)
-proc = Processor.new(instructions)
+proc = Processor.new(instructions, false)
 proc.run
-puts proc.registers['a']
+puts "register a is #{proc.registers['a']} for part 1"
+
+proc = Processor.new(instructions, true)
+proc.run
+puts "register a is #{proc.registers['a']} for part 2"
