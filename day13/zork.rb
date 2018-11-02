@@ -67,9 +67,30 @@ class Maze
     end
   end
 
+  def get_north
+    [@pos_y-1,@pos_x]
+  end
+
+  def get_south
+    [@pos_y+1,@pos_x]
+  end
+
+  def get_east
+    [@pos_y,@pos_x+1]
+  end
+
+  def get_west
+    [@pos_y,@pos_x-1]
+  end
+
   def move
-    @layout[@pos_y][@pos_x] = 'O'
     next_direction
+    next_pos = self.call("get_"+@direction.to_s)
+    if layout[next_pos[1]][next_pos[0]] == '.'
+      layout[@pos_y][@pos_x] = 'O'
+    else
+      layout[@pos_y][@pos_x] = '.'
+    end
     case @direction
     when :north
       @pos_y -= 1
