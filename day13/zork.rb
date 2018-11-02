@@ -30,35 +30,36 @@ class Maze
     local = [@layout[@pos_y-1][@pos_x-1,3],
              @layout[@pos_y][@pos_x-1,3],
              @layout[@pos_y+1][@pos_x-1,3]]
+    floor = ['.', 'O']
     case @direction
     when :north
-      if local[2][2] == '#' and local[1][2] == '.'
+      if local[2][2] == '#' and floor.index(local[1][2])
         @direction = :east
-      elsif local[0][1] == '#' and local[1][0] == '.'
+      elsif local[0][1] == '#' and floor.index(local[1][0])
         @direction = :west
       elsif local[0][1] == '#'
         @direction = :south
       end
     when :east
-      if local[2][0] == '#' and local[2][1] == '.'
+      if local[2][0] == '#' and floor.index(local[2][1])
         @direction = :south
-      elsif local[1][2] == '#' and local[0][1] == '.'
+      elsif local[1][2] == '#' and floor.index(local[0][1])
         @direction = :north
       elsif local[1][2] == '#'
         @direction = :west
       end
     when :south
-      if local[0][0] == '#' and local[1][0] == '.'
+      if local[0][0] == '#' and floor.index(local[1][0])
         @direction = :west
-      elsif local[2][1] == '#' and local[1][2] == '.'
+      elsif local[2][1] == '#' and floor.index(local[1][2])
         @direction = :east
       elsif local[2][1] == '#'
         @direction = :north
       end
     when :west
-      if local[0][2] == '#' and local[0][1] == '.'
+      if local[0][2] == '#' and floor.index(local[0][1])
         @direction = :north
-      elsif local[1][0] == '#' and local[2][1] == '.'
+      elsif local[1][0] == '#' and floor.index(local[2][1])
         @direction = :south
       elsif local[1][0] == '#'
         @direction = :east
@@ -90,5 +91,5 @@ end
 
 cubicles = Maze.new(ARGV[0].to_i)
 
-100.times { cubicles.move }
+100.times { |i| cubicles.move }
 cubicles.print_layout
