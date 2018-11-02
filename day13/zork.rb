@@ -42,9 +42,9 @@ class Maze
     when :east
       if local[2][0] == '#' and local[2][1] == '.'
         @direction = :south
-      elsif local[2][1] == '#' and local[0][1] == '.'
+      elsif local[1][2] == '#' and local[0][1] == '.'
         @direction = :north
-      elsif local[2][1] == '#'
+      elsif local[1][2] == '#'
         @direction = :west
       end
     when :south
