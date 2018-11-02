@@ -90,5 +90,5 @@ end
 
 cubicles = Maze.new(ARGV[0].to_i)
 
-10.times { cubicles.move }
+100.times { cubicles.move }
 cubicles.print_layout
