@@ -67,7 +67,8 @@ class Maze
   end
 
   def move
-    next_diretion
+    @layout[@pos_y][@pos_x] = 'O'
+    next_direction
     case @direction
     when :north
       @pos_y -= 1
@@ -78,6 +79,7 @@ class Maze
     when :west
       @pos_x -= 1
     end
+    @layout[@pos_y][@pos_x] = 'X'
   end
 end
 
