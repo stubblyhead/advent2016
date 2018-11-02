@@ -32,21 +32,37 @@ class Maze
              @layout[@pos_y+1][@pos_x-1,3]]
     case @direction
     when :north
-      @direction = :east; break if local[2][2] == '#' and local[1][2] == '.'
-      @direction = :west; break if local[0][1] == '#' and local[1][0] == '.'
-      @direction = :south if local[0][1] == '#'
+      if local[2][2] == '#' and local[1][2] == '.'
+        @direction = :east
+      elsif local[0][1] == '#' and local[1][0] == '.'
+        @direction = :west
+      elsif local[0][1] == '#'
+        @direction = :south
+      end
     when :east
-      @direction = :south; break if local[2][0] == '#' and local[2][1] == '.'
-      @direction = :north; break if local[2][1] == '#' and local[0][1] == '.'
-      @direction = :west if local[2][1] == '#'
+      if local[2][0] == '#' and local[2][1] == '.'
+        @direction = :south
+      elsif local[2][1] == '#' and local[0][1] == '.'
+        @direction = :north
+      elsif local[2][1] == '#'
+        @direction = :west
+      end
     when :south
-      @direction = :west; break if local[0][0] == '#' and local[1][0] == '.'
-      @direction = :east; break if local[2][1] == '#' and local[1][2] == '.'
-      @direction = :north if local[2][1] == '#'
+      if local[0][0] == '#' and local[1][0] == '.'
+        @direction = :west
+      elsif local[2][1] == '#' and local[1][2] == '.'
+        @direction = :east
+      elsif local[2][1] == '#'
+        @direction = :north
+      end
     when :west
-      @direction = :north; break if local[0][2] == '#' and local[0][1] == '.'
-      @direction = :south; break if local[1][0] == '#' and local[2][1] == '.'
-      @direction = :east if local[1][0] == '#'
+      if local[0][2] == '#' and local[0][1] == '.'
+        @direction = :north
+      elsif local[1][0] == '#' and local[2][1] == '.'
+        @direction = :south
+      elsif local[1][0] == '#'
+        @direction = :east
+      end
     end
   end
 
