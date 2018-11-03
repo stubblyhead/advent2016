@@ -187,7 +187,7 @@ def search
   open_set.push(root)
   until open_set.empty?
     subtree_root = open_set.shift
-    if subtree_root == [39,31]
+    if subtree_root == [7,4]
       return construct_path(subtree_root, meta)
     end
     cubicles.get_adjacent_nodes.each do |i|
