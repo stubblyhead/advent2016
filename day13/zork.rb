@@ -143,7 +143,7 @@ class Maze
   end
 
   def get_adjacent_nodes(node)
-    y,x = *node
+    x,y = *node
     local = [@layout[y-1][x-1,3],
              @layout[y][x-1,3],
              @layout[y+1][x-1,3]]
@@ -204,11 +204,14 @@ end
 
 def construct_path(state, meta)
   action_list = []
+  path = []
   while meta[state] != [nil, nil]
     state, action = *meta[state]
     action_list.push(action)
+    path.push(state)
   end
-  return action_list.reverse
+  return action_list.reverse, path.reverse
 end
 
-puts search(cubicles)
+actions, path = search(cubicles)
+actions.each_index { |i| puts "#{actions[i]} #{path[i]}" }
