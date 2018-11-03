@@ -119,10 +119,10 @@ class Maze
   def move
     next_direction
     next_pos = self.send("get_"+@direction.to_s)
-    if layout[next_pos[1]][next_pos[0]] == '.'
-      layout[@pos_y][@pos_x] = 'O'
+    if @layout[next_pos[0]][next_pos[1]] == '.'
+      @layout[@pos_y][@pos_x] = 'O'
     else
-      layout[@pos_y][@pos_x] = '.'
+      @layout[@pos_y][@pos_x] = '.'
     end
     case @direction
     when :north
