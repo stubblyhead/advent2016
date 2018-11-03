@@ -170,15 +170,28 @@ class Maze
       end
     end
 
-    local = [@layout[y-1][x-1,3],
-             @layout[y][x-1,3],
-             @layout[y+1][x-1,3]]
-    if y == 0
-      local[0].map! { |x| x = '#' }
+    if [x,y] == [0, 0]
+      local = [%w(# # #),
+               ['#', *@layout[y][x,2]],
+               ['#', *@layout[y+1][x,2]]
+              ]
+    elsif x == 0
+      local = [['#', *@layout[y-1][x,2]],
+               ['#', *@layout[y][x,2]],
+               ['#', *@layout[y+1][x,2]]
+             ]
+    elsif y == 0
+      local = [%w(# # #),
+               @layout[y][x-1,3],
+               @layout[y+1][x-1,3]
+             ]
+    else
+      local = [@layout[y-1][x-1,3],
+               @layout[y][x-1,3],
+               @layout[y+1][x-1,3]
+             ]
     end
-    if x == 0
-      local.each { |i| i[0] = '#' }
-    end
+
     adjacent = []
     if local[0][1] != '#'
       adjacent.push([[x,y-1], :north])
