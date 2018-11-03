@@ -144,6 +144,32 @@ class Maze
 
   def get_adjacent_nodes(node)
     x,y = *node
+    if y == @layout.length-1
+      puts "expanding down, pos_y = #{y}"
+      temp = Matrix[*layout]
+      temp = Matrix.vstack(temp, Matrix.row_vector(Array.new(@layout[0].length)))
+      @layout = temp.to_a
+      @layout[y].each_index do |x|
+        value = x**2 + 3*x + 2*x*y + y + y**2 + @fav_num
+        ones = 0
+        Math.log(value, 2).ceil.downto(0) { |j| ones += value[j] }
+        ones.even? ? @layout[y][x] = ' ' : @layout[y][x] = '#'
+      end
+    end
+
+    if x == @layout[0].length-1
+      puts "expanding right, pos_x = #{x}"
+      temp = Matrix[*layout]
+      temp = Matrix.hstack(temp, Matrix.column_vector(Array.new(@layout.length)))
+      @layout = temp.to_a
+      @layout.each_index do |y|
+        value = x**2 + 3*x + 2*x*y + y + y**2 + @fav_num
+        ones = 0
+        Math.log(value, 2).ceil.downto(0) { |j| ones += value[j] }
+        ones.even? ? @layout[y][x] = ' ' : @layout[y][x] = '#'
+      end
+    end
+    
     local = [@layout[y-1][x-1,3],
              @layout[y][x-1,3],
              @layout[y+1][x-1,3]]
@@ -187,7 +213,7 @@ def search(cubicles)
   open_set.push(root)
   until open_set.empty?
     subtree_root = open_set.shift
-    if subtree_root == [7,4]
+    if subtree_root == [31,39]
       return construct_path(subtree_root, meta)
     end
     cubicles.get_adjacent_nodes(subtree_root).each do |i|
@@ -215,3 +241,4 @@ end
 
 actions, path = search(cubicles)
 actions.each_index { |i| puts "#{actions[i]} #{path[i]}" }
+puts "#{actions.length} total moves"
