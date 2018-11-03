@@ -27,9 +27,42 @@ class Maze
   end
 
   def next_direction
+    local = []
+    if @pos_y == @layout.length-1
+      temp = Matrix[*layout]
+      temp = Matrix.vstack(temp, Matrix.row_vector(Array.new(@layout[0].length)))
+      @layout = temp.to_a
+      y = @layout.length-1
+      @layout[y].each_index do |x|
+        value = x**2 + 3*x + 2*x*y + y + y**2 + @fav_num
+        ones = 0
+        Math.log(value, 2).ceil.downto(0) { |j| ones += value[j] }
+        ones.even? ? @layout[y][x] = '.' : @layout[y][x] = '#'
+      end
+    end
+
+    if @pos_x == @layout[0].length-1
+      temp = Matrix[*layout]
+      temp = Matrix.hstack(temp, Matrix.col_vector(Array.new(@layout.length)))
+      @layout = temp.to_a
+      x = @layout[0].length-1
+      @layout.each_index do |y|
+        value = x**2 + 3*x + 2*x*y + y + y**2 + @fav_num
+        ones = 0
+        Math.log(value, 2).ceil.downto(0) { |j| ones += value[j] }
+        ones.even? ? @layout[y][x] = '.' : @layout[y][x] = '#'
+      end
+    end
+
     local = [@layout[@pos_y-1][@pos_x-1,3],
              @layout[@pos_y][@pos_x-1,3],
              @layout[@pos_y+1][@pos_x-1,3]]
+    if @pos_y == 0
+      @local[0].map! { |x| x = '#' }
+    end
+    if @pos_x == 0
+      @local.each { |i| i[0] = '#' }
+    end 
     floor = ['.', 'O']
     case @direction
     when :north
@@ -85,7 +118,7 @@ class Maze
 
   def move
     next_direction
-    next_pos = self.call("get_"+@direction.to_s)
+    next_pos = self.send("get_"+@direction.to_s)
     if layout[next_pos[1]][next_pos[0]] == '.'
       layout[@pos_y][@pos_x] = 'O'
     else
