@@ -1,14 +1,15 @@
 require 'matrix'
 require 'pry'
 
-binding.pry
+#binding.pry
 
 class Maze
-  attr_reader :layout, :fav_num, :pos_x, :pos_y, :direction
+  attr_reader :layout, :fav_num, :pos_x, :pos_y, :direction, :max_x, :max_y
 
   def initialize(fav_num)
+    @max_x, @max_y = [1,1]
     @fav_num = fav_num
-    @layout = Array.new(50) { Array.new(50) }
+    @layout = Array.new(40) { Array.new(40) }
     @layout.each_index do |y|
       @layout[y].each_index do |x|
         value = x**2 + 3*x + 2*x*y + y + y**2 + @fav_num
@@ -29,6 +30,7 @@ class Maze
   def next_direction
     local = []
     if @pos_y == @layout.length-1
+      puts "expanding down, pos_y = #{@pos_y}"
       temp = Matrix[*layout]
       temp = Matrix.vstack(temp, Matrix.row_vector(Array.new(@layout[0].length)))
       @layout = temp.to_a
@@ -42,8 +44,9 @@ class Maze
     end
 
     if @pos_x == @layout[0].length-1
+      puts "expanding right, pos_x = #{@pos_x}"
       temp = Matrix[*layout]
-      temp = Matrix.hstack(temp, Matrix.col_vector(Array.new(@layout.length)))
+      temp = Matrix.hstack(temp, Matrix.column_vector(Array.new(@layout.length)))
       @layout = temp.to_a
       x = @layout[0].length-1
       @layout.each_index do |y|
@@ -129,8 +132,10 @@ class Maze
       @pos_y -= 1
     when :east
       @pos_x += 1
+      @max_x = [@max_x, @pos_x].max
     when :south
       @pos_y += 1
+      @max_y = [@max_y, @pos_y].max
     when :west
       @pos_x -= 1
     end
@@ -145,5 +150,6 @@ end
 
 cubicles = Maze.new(ARGV[0].to_i)
 
-100.times { |i| cubicles.move }
+20000.times { |i| cubicles.move }
 cubicles.print_layout
+print "#{cubicles.max_x}, #{cubicles.max_y}"
