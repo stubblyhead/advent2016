@@ -145,7 +145,7 @@ class Maze
   def get_adjacent_nodes(node)
     x,y = *node
     if y == @layout.length-1
-      puts "expanding down, pos_y = #{y}"
+      #puts "expanding down, pos_y = #{y}"
       temp = Matrix[*layout]
       temp = Matrix.vstack(temp, Matrix.row_vector(Array.new(@layout[0].length)))
       @layout = temp.to_a
@@ -158,7 +158,7 @@ class Maze
     end
 
     if x == @layout[0].length-1
-      puts "expanding right, pos_x = #{x}"
+      #puts "expanding right, pos_x = #{x}"
       temp = Matrix[*layout]
       temp = Matrix.hstack(temp, Matrix.column_vector(Array.new(@layout.length)))
       @layout = temp.to_a
@@ -169,7 +169,7 @@ class Maze
         ones.even? ? @layout[y][x] = ' ' : @layout[y][x] = '#'
       end
     end
-    
+
     local = [@layout[y-1][x-1,3],
              @layout[y][x-1,3],
              @layout[y+1][x-1,3]]
@@ -213,7 +213,7 @@ def search(cubicles)
   open_set.push(root)
   until open_set.empty?
     subtree_root = open_set.shift
-    if subtree_root == [31,39]
+    if subtree_root == [31, 39]
       return construct_path(subtree_root, meta)
     end
     cubicles.get_adjacent_nodes(subtree_root).each do |i|
@@ -239,6 +239,7 @@ def construct_path(state, meta)
   return action_list.reverse, path.reverse
 end
 
+cubicles.print_layout
 actions, path = search(cubicles)
 actions.each_index { |i| puts "#{actions[i]} #{path[i]}" }
 puts "#{actions.length} total moves"
