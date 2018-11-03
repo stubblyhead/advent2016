@@ -15,7 +15,7 @@ class Maze
         value = x**2 + 3*x + 2*x*y + y + y**2 + @fav_num
         ones = 0
         Math.log(value, 2).ceil.downto(0) { |i| ones += value[i] }
-        ones.even? ? @layout[y][x] = '.' : @layout[y][x] = '#'
+        ones.even? ? @layout[y][x] = ' ' : @layout[y][x] = '#'
       end
     end
     @pos_x, @pos_y = [1,1]
@@ -39,7 +39,7 @@ class Maze
         value = x**2 + 3*x + 2*x*y + y + y**2 + @fav_num
         ones = 0
         Math.log(value, 2).ceil.downto(0) { |j| ones += value[j] }
-        ones.even? ? @layout[y][x] = '.' : @layout[y][x] = '#'
+        ones.even? ? @layout[y][x] = ' ' : @layout[y][x] = '#'
       end
     end
 
@@ -53,7 +53,7 @@ class Maze
         value = x**2 + 3*x + 2*x*y + y + y**2 + @fav_num
         ones = 0
         Math.log(value, 2).ceil.downto(0) { |j| ones += value[j] }
-        ones.even? ? @layout[y][x] = '.' : @layout[y][x] = '#'
+        ones.even? ? @layout[y][x] = ' ' : @layout[y][x] = '#'
       end
     end
 
@@ -66,7 +66,7 @@ class Maze
     if @pos_x == 0
       local.each { |i| i[0] = '#' }
     end
-    floor = ['.', 'O']
+    floor = [' ', '•']
     case @direction
     when :north
       if local[2][2] == '#' and floor.index(local[1][2])
@@ -122,10 +122,10 @@ class Maze
   def move
     next_direction
     next_pos = self.send("get_"+@direction.to_s)
-    if @layout[next_pos[0]][next_pos[1]] == '.'
-      @layout[@pos_y][@pos_x] = 'O'
+    if @layout[next_pos[0]][next_pos[1]] == ' '
+      @layout[@pos_y][@pos_x] = '•'
     else
-      @layout[@pos_y][@pos_x] = '.'
+      @layout[@pos_y][@pos_x] = ' '
     end
     case @direction
     when :north
@@ -141,6 +141,33 @@ class Maze
     end
     @layout[@pos_y][@pos_x] = 'X'
   end
+
+  def get_adjacent_nodes(node)
+    y,x = *node
+    local = [@layout[y-1][x-1,3],
+             @layout[y][x-1,3],
+             @layout[y+1][x-1,3]]
+    if y == 0
+      local[0].map! { |x| x = '#' }
+    end
+    if x == 0
+      local.each { |i| i[0] = '#' }
+    end
+    adjacent = []
+    if local[0][1] != '#'
+      adjacent.push([[x,y-1], :north])
+    end
+    if local[1][0] != '#'
+      adjacent.push([[x-1,y], :west])
+    end
+    if local[1][2] != '#'
+      adjacent.push([[x+1,y], :east])
+    end
+    if local[2][1] != '#'
+      adjacent.push([[x,y+1], :south])
+    end
+    return adjacent
+  end
 end
 
 unless ARGV[0]
@@ -150,6 +177,38 @@ end
 
 cubicles = Maze.new(ARGV[0].to_i)
 
-20000.times { |i| cubicles.move }
-cubicles.print_layout
-print "#{cubicles.max_x}, #{cubicles.max_y}"
+def search
+  open_set = [] #places still to traverse
+  closed_set = [] #places already traversed
+  meta = {} #previous node, direction to get there
+
+  root = [1,1] #origin
+  meta[root] = [nil, nil]
+  open_set.push(root)
+  until open_set.empty?
+    subtree_root = open_set.shift
+    if subtree_root == [39,31]
+      return construct_path(subtree_root, meta)
+    end
+    cubicles.get_adjacent_nodes.each do |i|
+      child, direction = *i
+      continue if closed_set.index(child)
+      unless open_set.index(child)
+        meta[child] = [subtree_root, direction]
+        open_set.push(child)
+      end
+    end
+    closed_set.push(child)
+  end
+end
+
+def construct_path(state, meta)
+  action_list = []
+  while meta[state] != [nil, nil]
+    state, action = *meta[state]
+    action_list.push(action)
+  end
+  return action_list.reverse
+end
+
+puts cubicles.search
