@@ -1,7 +1,7 @@
 require 'matrix'
 require 'pry'
 
-#binding.pry
+binding.pry
 
 class Maze
   attr_reader :layout, :fav_num, :pos_x, :pos_y, :direction, :max_x, :max_y
@@ -177,7 +177,7 @@ end
 
 cubicles = Maze.new(ARGV[0].to_i)
 
-def search
+def search(cubicles)
   open_set = [] #places still to traverse
   closed_set = [] #places already traversed
   meta = {} #previous node, direction to get there
@@ -190,15 +190,15 @@ def search
     if subtree_root == [7,4]
       return construct_path(subtree_root, meta)
     end
-    cubicles.get_adjacent_nodes.each do |i|
+    cubicles.get_adjacent_nodes(subtree_root).each do |i|
       child, direction = *i
-      continue if closed_set.index(child)
+      next if closed_set.index(child)
       unless open_set.index(child)
         meta[child] = [subtree_root, direction]
         open_set.push(child)
       end
     end
-    closed_set.push(child)
+    closed_set.push(subtree_root)
   end
 end
 
@@ -211,4 +211,4 @@ def construct_path(state, meta)
   return action_list.reverse
 end
 
-puts cubicles.search
+puts search(cubicles)
