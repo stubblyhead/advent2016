@@ -58,11 +58,11 @@ class Maze
              @layout[@pos_y][@pos_x-1,3],
              @layout[@pos_y+1][@pos_x-1,3]]
     if @pos_y == 0
-      @local[0].map! { |x| x = '#' }
+      local[0].map! { |x| x = '#' }
     end
     if @pos_x == 0
-      @local.each { |i| i[0] = '#' }
-    end 
+      local.each { |i| i[0] = '#' }
+    end
     floor = ['.', 'O']
     case @direction
     when :north
