@@ -1,7 +1,7 @@
 require 'matrix'
 require 'pry'
 
-binding.pry
+#binding.pry
 
 class Maze
   attr_reader :layout, :fav_num, :pos_x, :pos_y, :direction, :max_x, :max_y
@@ -216,7 +216,7 @@ end
 
 cubicles = Maze.new(ARGV[0].to_i)
 
-def search(cubicles)
+def bf_search(cubicles)
   open_set = [] #places still to traverse
   closed_set = [] #places already traversed
   meta = {} #previous node, direction to get there
@@ -252,7 +252,27 @@ def construct_path(state, meta)
   return action_list.reverse, path.reverse
 end
 
-cubicles.print_layout
-actions, path = search(cubicles)
-actions.each_index { |i| puts "#{actions[i]} #{path[i]}" }
+actions, path = bf_search(cubicles)
+#actions.each_index { |i| puts "#{actions[i]} #{path[i]}" }
 puts "#{actions.length} total moves"
+
+def df_search(cubicles, depth)
+  nodes = {}
+  open_set = []
+  root = [1,1]
+  nodes[root] = 0
+  open_set.push(root)
+  current_depth = 0
+  until open_set.empty?
+    subroot_node = open_set.shift
+    current_depth = nodes[subroot_node]
+    return nodes if current_depth > depth
+    cubicles.get_adjacent_nodes(subroot_node).each do |i|
+      neighbor = i[0]
+      open_set.push(neighbor) unless open_set.index(neighbor)
+      nodes[neighbor] = nodes[subroot_node] + 1 unless nodes[neighbor] != nil
+    end
+  end
+end
+
+deep_nodes = df_search(cubicles, 2)
