@@ -1,12 +1,12 @@
 require 'pry'
 binding.pry
 
-def expand(a)
+def expand(a, length)
   b = a.reverse
   b.chars.each_index do |i|
     b[i] == '0' ? b[i] = '1' : b[i] = '0'
   end
-  return a + '0' + b
+  b.length >= length? b[0,length] : expand(b)
 end
 
 def checksum(a)
@@ -35,5 +35,15 @@ until dummy.length >= length
   puts dummy.length
 end
 dummy = dummy[0,length]
+
+puts checksum(dummy)
+
+length2 = 35651584
+dummy = input
+until dummy.length >= length2
+  dummy = expand(dummy)
+  puts dummy.length
+end
+dummy = dummy[0,length2]
 
 puts checksum(dummy)
