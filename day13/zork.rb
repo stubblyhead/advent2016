@@ -1,7 +1,5 @@
 require 'matrix'
-require 'pry'
 
-#binding.pry
 
 class Maze
   attr_reader :layout, :fav_num, :pos_x, :pos_y, :direction, :max_x, :max_y
@@ -265,14 +263,15 @@ def df_search(cubicles, depth)
   current_depth = 0
   until open_set.empty?
     subroot_node = open_set.shift
-    current_depth = nodes[subroot_node]
+    current_depth = nodes[subroot_node] + 1
     return nodes if current_depth > depth
     cubicles.get_adjacent_nodes(subroot_node).each do |i|
       neighbor = i[0]
       open_set.push(neighbor) unless open_set.index(neighbor)
-      nodes[neighbor] = nodes[subroot_node] + 1 unless nodes[neighbor] != nil
+      nodes[neighbor] = nodes[subroot_node] + 1 unless nodes[neighbor] != nil or current_depth > depth
     end
   end
 end
 
-deep_nodes = df_search(cubicles, 2)
+deep_nodes = df_search(cubicles, 50)
+puts "#{deep_nodes.length} nodes within 50 steps of (1,1)"
