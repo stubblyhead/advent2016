@@ -21,13 +21,15 @@ until keys.length == 64
       end
       if key_candidates[i].match(/#{triple}{5}/)
         keys.push(key_candidates[current_candidate])
+        current_candidate += 1
         break
       end
     end
+    current_candidate += 1
   else
     current_candidate += 1
     next
   end
 end
 
-puts "took #{key_candidates.length} tries to find 64 keys"
+puts "took #{key_candidates.index(keys[-1])} tries to find 64 keys"
