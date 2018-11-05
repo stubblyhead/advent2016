@@ -28,14 +28,14 @@ input.each do |line|
   depth = layers.length
   layers.push(Spinner.new(positions, start, depth))
 end
-#initial_state = layers
+layers.push(Spinner.new(11,0,layers.length))
 time = 0
 
 positions = Array.new(layers.length)
 desired = Array.new(layers.length) {0}
 
 positions.each_index { |i| positions[i] = layers[i].delayed_position }
-until positions == desired
+until positions[0..-2] == desired[0..-2]
   time += 1
   layers.each { |i| i.tick }
   positions.each_index { |i| positions[i] = layers[i].delayed_position }
@@ -43,4 +43,10 @@ end
 
 puts time
 
-#puts initial_state
+until positions == desired
+  time += 1
+  layers.each { |i| i.tick }
+  positions.each_index { |i| positions[i] = layers[i].delayed_position }
+end
+
+puts time
