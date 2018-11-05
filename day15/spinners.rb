@@ -7,7 +7,7 @@ class Spinner
   end
 
   def tick
-    @current = (@current + 1) % @start
+    @current = (@current + 1) % @positions
   end
 
 end
