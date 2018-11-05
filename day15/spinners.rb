@@ -30,9 +30,9 @@ input.each do |line|
 end
 time = 0
 
-positions = Array.new(layers.length)
+desired = positions = Array.new(layers.length)
 positions.each_index { |i| positions[i] = layers[i].delayed_position }
-until positions == Array.new(layers.length) { 0 }
+until positions == desired
   time += 1
   layers.each { |i| i.tick }
   positions.each_index { |i| positions[i] = layers[i].delayed_position }
