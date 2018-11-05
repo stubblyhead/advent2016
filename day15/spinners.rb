@@ -18,8 +18,16 @@ end
 
 layers = []
 layers[0] = Spinner.new(1,0,0)
-layers[1] = Spinner.new(5,4,1)
-layers[2] = Spinner.new(2,1,2)
+
+input = File.readlines('./input', :chomp => true)
+input.each do |line|
+  parts = line.split(' positions; at time=0, it is at position ')
+  match = parts[0].match(/\d+.*?(\d+)/)
+  positions = match[1].to_i
+  start = parts[1].to_i
+  depth = layers.length
+  layers.push(Spinner.new(positions, start, depth))
+end
 time = 0
 
 positions = Array.new(layers.length)
