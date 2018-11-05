@@ -1,34 +1,33 @@
 class Spinner
-  attr_reader :positions, :start, :current
+  attr_reader :positions, :current, :depth
 
-  def initialize(positions, start)
-    @positions, @start = [positions, start]
-    @current = @start
+  def initialize(positions, start, depth)
+    @positions, @current, @depth = [positions, start, depth]
   end
 
   def tick
     @current = (@current + 1) % @positions
   end
 
+  def delayed_position
+    (@current + @depth) % @positions
+  end
+
 end
 
 
 layers = []
-layers[0] = Spinner.new(1,0)
-layers[1] = Spinner.new(5,4)
-layers[2] = Spinner.new(2,1)
+layers[0] = Spinner.new(1,0,0)
+layers[1] = Spinner.new(5,4,1)
+layers[2] = Spinner.new(2,1,2)
 time = 0
-print "time 0 "
-layers.each { |i| print "#{i.current} " }
-print "\n"
 
-while true
+positions = Array.new(layers.length)
+positions.each_index { |i| positions[i] = layers[i].delayed_position }
+until positions == Array.new(layers.length) { 0 }
   time += 1
-  print "time #{time} "
-  layers.each do |i|
-    i.tick
-    print "#{i.current} "
-  end
-  print "\n"
-  sleep 1
+  layers.each { |i| i.tick }
+  positions.each_index { |i| positions[i] = layers[i].delayed_position }
 end
+
+puts time
