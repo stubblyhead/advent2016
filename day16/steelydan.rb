@@ -1,27 +1,25 @@
 require 'pry'
-binding.pry
+#binding.pry
 
 def expand(a, length)
   b = a.reverse
   b.chars.each_index do |i|
     b[i] == '0' ? b[i] = '1' : b[i] = '0'
   end
-  b.length >= length? b[0,length] : expand(b)
+  b = a + '0' + b
+  puts b.length
+  b.length >= length ? b[0,length] : expand(b, length)
 end
 
-def checksum(a)
-  count = 0
-  pairs = []
-  while count < a.length
-    pairs.push(a[count] + a[count + 1])
-    count += 2
-  end
+def checksum(a, length)
+  a_num = a.to_i(2)
   value = ''
-  pairs.each do |i|
-    i[0] == i[1] ? value += '1' : value += '0'
+  curr = length - 1
+  while curr > 0
+    value += (a_num[curr] == a_num[curr-1] ? "1" : "0")
+    curr -= 2
   end
-
-  value.length.even? ? checksum(value) : value
+  value.length.odd? ? value : checksum(value, value.length)
 end
 
 
@@ -29,21 +27,10 @@ end
 length = 272
 
 input = '00111101111101000'
-dummy = input
-until dummy.length >= length
-  dummy = expand(dummy)
-  puts dummy.length
-end
-dummy = dummy[0,length]
-
-puts checksum(dummy)
+dummy = expand(input, length)
+puts checksum(dummy, length)
 
 length2 = 35651584
 dummy = input
-until dummy.length >= length2
-  dummy = expand(dummy)
-  puts dummy.length
-end
-dummy = dummy[0,length2]
-
-puts checksum(dummy)
+dummy = expand(dummy, length2)
+puts checksum(dummy, length2)
