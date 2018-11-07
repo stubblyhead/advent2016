@@ -24,7 +24,7 @@ class Room
 
   def set_doors(code)
     open_char = /[b-f]/
-    @doors.keys.each { |i| lock(@doors[i]) }
+    @doors.keys.each { |i| lock(i) }
     unlock(:up) if code[0].match(open_char)
     unlock(:down) if code[1].match(open_char)
     unlock(:left) if code[2].match(open_char)
@@ -82,13 +82,13 @@ def bfs(mansion)
     hash = Digest::MD5.hexdigest(code)[0,4]
     mansion.rooms[room[0]][room[1]].set_doors(hash)
     if room == [3,3]
-      return hash[mansion.passcode.length..-1]
+      return code[mansion.passcode.length..-1]
     end
 
     directions = mansion.rooms[room[0]][room[1]].find_moves
     directions.each do |i|
       nextcode = code + i.to_s.upcase[0]
-      nextroom = room
+      nextroom = room.clone
       if i == :up
         nextroom[0] -= 1
       elsif i == :down
