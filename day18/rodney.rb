@@ -1,37 +1,52 @@
+require 'pry'
+#binding.pry
+
 class Traps
   attr_reader :layout
 
   def initialize(previous)
-    layout = ''
+    @layout = ''
     trapmap = { ?^ => true, ?. => false }
     previous.chars.each_index do |i|
       if i == 0
-        slice = [false, trapmap[previous[i], trapmap[previous[i+1]] ]
+        slice = [false, trapmap[previous[i]], trapmap[previous[i+1]] ]
       elsif i == previous.length - 1
         slice = [trapmap[previous[i-1]], trapmap[previous[i]], false]
       else
-        slice = [treapmap[previous[i-1]], trapmap[previous[i]], trapmap[previous[i+1]] ]
+        slice = [trapmap[previous[i-1]], trapmap[previous[i]], trapmap[previous[i+1]] ]
       end
       case slice
       when [true, true, false]
-        layout += ?^
+        @layout += ?^
       when [false, true, true]
-        layout += ?^
+        @layout += ?^
       when [true, false, false]
-        layout += ?^
+        @layout += ?^
       when [false, false, true]
-        layout += ?^
+        @layout += ?^
       else
-        layout += ?.
+        @layout += ?.
       end
     end
   end
 
+  def chars
+    @layout.chars
+  end
+
+  def [](i)
+    @layout[i]
+  end
+
+  def length
+    @layout.length
+  end
+
 end
 
-first = '..^^.'
+first = '.^^.^.^^^^'
 floormap = [first]
-2.times { floormap.push(Traps.new(floormap[-1])) }
+10.times { floormap.push(Traps.new(floormap[-1])) }
 
 puts floormap[0]
 floormap[1..-1].each { |i| puts i.layout }
