@@ -42,11 +42,18 @@ class Traps
     @layout.length
   end
 
+  def count(a)
+    @layout.count(a)
+  end
+
 end
 
-first = '.^^.^.^^^^'
+first = '^^.^..^.....^..^..^^...^^.^....^^^.^.^^....^.^^^...^^^^.^^^^.^..^^^^.^^.^.^.^.^.^^...^^..^^^..^.^^^^'
 floormap = [first]
-10.times { floormap.push(Traps.new(floormap[-1])) }
+399.times { floormap.push(Traps.new(floormap[-1])) }
 
+count = 0
+floormap.each { |i| count += i.count(?.) }
+puts count
 puts floormap[0]
 floormap[1..-1].each { |i| puts i.layout }
