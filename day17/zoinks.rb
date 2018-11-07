@@ -72,6 +72,7 @@ mansion = Maze.new(passcode)
 
 def bfs(mansion)
   open_set = []
+  solution_paths = []
   root = [0,0,mansion.passcode]
   open_set.push(root)
 
@@ -82,7 +83,8 @@ def bfs(mansion)
     hash = Digest::MD5.hexdigest(code)[0,4]
     mansion.rooms[room[0]][room[1]].set_doors(hash)
     if room == [3,3]
-      return code[mansion.passcode.length..-1]
+      solution_paths.push(code)
+      next
     end
 
     directions = mansion.rooms[room[0]][room[1]].find_moves
@@ -101,6 +103,10 @@ def bfs(mansion)
       open_set.push(nextroom + [nextcode])
     end
   end
+  return solution_paths
 end
 
-puts bfs(mansion)
+solution_paths = bfs(mansion)
+
+puts "shortest path is #{solution_paths[0][mansion.passcode.length..-1]}"
+puts "longest path is #{solution_paths[-1][mansion.passcode.length..-1].length} steps long"
