@@ -25,10 +25,10 @@ class Room
   def set_doors(code)
     open_char = /[b-f]/
     @doors.keys.each { |i| lock(@doors[i]) }
-    unlock(@doors[:up]) if code[0].match(open_char)
-    unlock(@doors[:down]) if code[1].match(open_char)
-    unlock(@doors[:left]) if code[2].match(open_char)
-    unlock(@doors[:right]) if code[3].match(open_char)
+    unlock(:up) if code[0].match(open_char)
+    unlock(:down) if code[1].match(open_char)
+    unlock(:left) if code[2].match(open_char)
+    unlock(:right) if code[3].match(open_char)
   end
 
   def find_moves
@@ -87,7 +87,7 @@ def bfs(mansion)
 
     directions = mansion.rooms[room[0]][room[1]].find_moves
     directions.each do |i|
-      nexthash = hash + i.to_s.upcase[0]
+      nextcode = code + i.to_s.upcase[0]
       nextroom = room
       if i == :up
         nextroom[0] -= 1
@@ -98,7 +98,7 @@ def bfs(mansion)
       elsif i == :right
         nextroom[1] += 1
       end
-      open_set.push(nextroom + [nexthash])
+      open_set.push(nextroom + [nextcode])
     end
   end
 end
