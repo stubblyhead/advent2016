@@ -1,7 +1,7 @@
 require 'digest'
 require 'pry'
 
-binding.pry
+#binding.pry
 
 class Room
   attr_reader :doors
@@ -65,7 +65,7 @@ class Maze
 
 end
 
-passcode = 'ihgpwlah'
+passcode = 'pvhmgsws'
 mansion = Maze.new(passcode)
 #roomhash = Digest::MD5.hexdigest(mansion.passcode)[0,4]
 #Maze.rooms[0][0].set_doors(roomhash)
