@@ -1,3 +1,6 @@
+require 'pry'
+binding.pry
+
 class Scrambler
 
   def initialize(password)
@@ -39,9 +42,10 @@ class Scrambler
   def unrotate_x(x)
     position = @password.index(x)
     if position.odd?
-      rotate_left((position/2.0).ceil)
+      rotate_left((position/2.0) + 0.5)
     else
-      rotate_left(position + 2)
+      position = 8 if position == 0
+      rotate_left(position/2 + 5)
     end
   end
 
@@ -87,12 +91,14 @@ end
 
 password = Scrambler.new('abcdefgh')
 
+print "#{password.get_password} scrambled is "
 instructions.each do |i|
   password.send(*i)
 end
 
-scrambled_password = password.get_password
+puts password.get_password
 
+unscramble = Scrambler.new('fbgdceah')
 instructions = []
 input.reverse.each do |i|
   parts = i.split
@@ -115,8 +121,8 @@ input.reverse.each do |i|
   end
 end
 
-instructions.each do |i|
-  password.send(*i)
+print "#{unscramble.get_password} unscrambled is "
+instructions.each_index do |i|
+  unscramble.send(*instructions[i])
 end
-
-puts password.get_password
+puts unscramble.get_password
