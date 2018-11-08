@@ -32,7 +32,7 @@ class Scrambler
 
   def move(x,y)
     char = @password[x]
-    @password.remove_at(x)
+    @password.delete_at(x)
     @password.insert(y, char)
   end
 
@@ -55,7 +55,7 @@ input.each do |i|
     instructions.push(['reverse', parts[2].to_i, parts[-1].to_i])
   elsif parts[0] == 'rotate'
     if parts[1] == 'based'
-      instructinos.push(['rotate_x', parts[-1]])
+      instructions.push(['rotate_x', parts[-1]])
     else
       instructions.push(["rotate_#{parts[1]}", parts[2].to_i])
     end
