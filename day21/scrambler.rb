@@ -41,7 +41,7 @@ class Scrambler
   end
 end
 
-input = File.readlines('./testcase', :chomp => true)
+input = File.readlines('./input', :chomp => true)
 instructions = []
 input.each do |i|
   parts = i.split
@@ -64,7 +64,7 @@ input.each do |i|
   end
 end
 
-password = Scrambler.new('abcde')
+password = Scrambler.new('abcdefgh')
 
 instructions.each do |i|
   password.send(*i)
