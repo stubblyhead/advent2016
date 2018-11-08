@@ -1,4 +1,6 @@
-ranges = ['5-8','0-2','4-7']
+#ranges = ['5-8','0-2','4-7']
+ranges = File.readlines('./input', :chomp=>true)
+
 
 ruleshash = {}
 ranges.each do |i|
@@ -12,4 +14,9 @@ ruleshash.keys.sort.each do |i|
   blacklist.uniq!
 end
 
-puts blacklist
+blacklist.each_index do |i|
+  if blacklist[i] != i
+    puts blacklist[i-1] + 1
+    break
+  end
+end
