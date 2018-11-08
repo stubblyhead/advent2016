@@ -1,3 +1,5 @@
+# require 'pry'
+# binding.pry
 #ranges = ['5-8','0-2','4-7']
 ranges = File.readlines('./input', :chomp=>true)
 
@@ -8,15 +10,12 @@ ranges.each do |i|
   ruleshash[parts[0].to_i] = parts[1].to_i
 end
 
-blacklist = []
+highest_seen = 0
 ruleshash.keys.sort.each do |i|
-  blacklist += (i..ruleshash[i]).to_a
-  blacklist.uniq!
-end
-
-blacklist.each_index do |i|
-  if blacklist[i] != i
-    puts blacklist[i-1] + 1
+  if i > highest_seen + 1
+    puts highest_seen + 1
     break
+  else
+    highest_seen = ruleshash[i]
   end
 end
