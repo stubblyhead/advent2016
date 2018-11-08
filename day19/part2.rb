@@ -13,7 +13,7 @@ def part2(n, myturn)
   end
 end
 
-(1..100).each do |i|
+(1..ARGV[0].to_i).each do |i|
   circle = Array.new(i)
   circle.each_index { |i| circle[i] = i+1 }
   puts "#{i}\t#{part2(circle,0)}"
