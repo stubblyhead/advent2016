@@ -40,7 +40,20 @@ class Puzzle
     moves
   end
 
-
+  def move(source)
+    @layout[@empty[0]][@empty[1]] = '•'
+    case source
+    when :up
+      @empty[0] -= 1
+    when :down
+      @empty[0] += 1
+    when :left
+      @empty[1] -= 1
+    when :right
+      @empty[1] += 1
+    end
+    @layout[empty[0]][empty[1]] = '_'
+  end
 
 
 end
