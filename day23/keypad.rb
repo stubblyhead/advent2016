@@ -1,3 +1,7 @@
+require 'pry'
+
+binding.pry
+
 class Processor
   attr_reader :registers, :instructions
 
@@ -31,12 +35,15 @@ class Processor
   def jnz(x,y)
     offset = 1
     x = x.to_i if x.match(/\d+/)
+    y = y.to_i if y.match(/\d+/)
     x = @registers[x] unless x.class == Integer
-    offset = y.to_i if x != 0
+    y = @registers[y] unless y.class == Integer
+    offset = y if x != 0
     @pointer += offset
   end
 
   def tgl(x)
+    x = x.to_i if x.match(/\d+/)
     x = @registers[x] unless x.class == Integer
     idx = @pointer + x
     if idx > 0 and idx < @instructions.length
@@ -63,3 +70,8 @@ class Processor
     end
   end
 end
+
+keypad = Processor.new(File.readlines('./testcase', :chomp=>true))
+keypad.run
+
+puts keypad.registers[?a]
