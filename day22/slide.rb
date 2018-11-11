@@ -1,6 +1,4 @@
-require 'pry'
 require 'deep_clone'
-binding.pry
 
 class Puzzle
   attr_reader :layout, :empty, :goal
@@ -18,7 +16,7 @@ class Puzzle
       when used > 100
         @layout[y][x] = '#'
       when used > 0
-        @layout[y][x] = '•'
+        @layout[y][x] = 'bre'
       when used == 0
         @layout[y][x] = '_'
         @empty = [y,x]
@@ -109,24 +107,53 @@ class Puzzle
 
 end
 
+def bfs(grid)
+  open_set = []
+  closed_set = []
+  meta = {}
+  #touched_goal = false
+  root = [grid.empty,grid.goal]
+  meta[root] = [nil,nil]
+  open_set.push(root)
+
+  until open_set.empty?
+    subtree_root = open_set.shift
+    if subtree_root[1] == [0,0]
+      return construct_path(subtree_root, meta)
+    else
+      temp = DeepClone.clone(grid)
+      temp.set_empty(subtree_root[0])
+      temp.set_goal(subtree_root[1])
+      moves = temp.find_moves
+      moves.each do |i|
+        new = temp.get_next(i)
+        if new[1] != [0,34]
+          touched_goal = true
+        else
+          touched_goal = false
+        end
+        if !closed_set.index(new) and !open_set.index(new) and (!touched_goal or (touched_goal and new[0][0] <= 1 and new[1][0] <= 1))
+          meta[new] = [subtree_root, i]
+          open_set.push(new)
+        end
+      end
+
+      closed_set.push(subtree_root)
+    end
+  end
+end
+
+def construct_path(state, meta)
+  actions = []
+  while meta[state][0]
+    state, action = meta[state]
+    actions.push(action)
+  end
+  return actions.reverse
+end
+
 lines = File.readlines('./input', :chomp=>true)
 mypuzzle = Puzzle.new(lines)
-true
+moves = bfs(mypuzzle)
 
-# def bfs(grid)
-#   open_set = []
-#   closed_set = []
-#   meta = {}
-#   root = [grid.empty,grid.goal]
-#   meta[root] = [nil,nil]
-#   open_set.push(root)
-#
-#   until open_set.empty?
-#     subtree_root = open_set.shift
-#     if subtree_root.goal = [0,0]
-#       return construct_path(subtree_root, meta)
-#     else
-#       temp = DeepClone.clone(grid)
-#       temp.set_empty(subtree_root[0])
-#       temp.set_goal(subtree_root[1])
-#       moves.each do |i|
+puts "#{moves.length} moves to access data"
