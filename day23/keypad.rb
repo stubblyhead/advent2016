@@ -5,12 +5,12 @@ binding.pry
 class Processor
   attr_reader :registers, :instructions
 
-  def initialize(instructions, ignition=false)
+  def initialize(instructions, eggs=0)
     @instructions = instructions
     @registers = {}
     ('a'..'d').each { |i| @registers[i] = 0 }
     @pointer = 0
-    @registers['c'] = 1 if ignition
+    @registers['a'] = eggs
   end
 
   def cpy(x, y)
@@ -71,7 +71,7 @@ class Processor
   end
 end
 
-keypad = Processor.new(File.readlines('./testcase', :chomp=>true))
+keypad = Processor.new(File.readlines('./input', :chomp=>true), 7)
 keypad.run
 
 puts keypad.registers[?a]
