@@ -1,6 +1,7 @@
 require 'pry'
+require 'benchmark'
 
-binding.pry
+#binding.pry
 
 class Processor
   attr_reader :registers, :instructions
@@ -29,6 +30,13 @@ class Processor
 
   def dec(x)
     @registers[x] -= 1
+    @pointer += 1
+  end
+
+  def mul(x,y)
+    y = y.to_i if y.match(/\d+/)
+    y = @registers[y] unless y.class == Integer
+    @registers[x] *= y
     @pointer += 1
   end
 
@@ -67,11 +75,16 @@ class Processor
   def run
     until @pointer >= @instructions.length
       self.send(*@instructions[@pointer].split)
+      #puts "#{@registers}  @instructions[#{@pointer}] => #{@instructions[@pointer]}"
     end
   end
 end
 
-keypad = Processor.new(File.readlines('./input', :chomp=>true), 7)
-keypad.run
+def run(i)
+  keypad = Processor.new(File.readlines('./input', :chomp=>true), i)
+  keypad.run
+  keypad.registers[?a]
+end
 
-puts keypad.registers[?a]
+puts "f(7) = #{run(7)}"
+puts "f(12) = #{run(12)}"
