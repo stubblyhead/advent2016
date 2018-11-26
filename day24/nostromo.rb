@@ -76,11 +76,12 @@ class HVAC
     end
   end
 
-  private def construct_path(subtree_root, meta)
+  private def construct_path(loc, meta)
     action_list = Array.new
 
-    until meta[subtree_root][0] == nil
-      action_list.push(meta[subtree_root][1])
+    until meta[loc][0] == nil
+      loc, direction = meta[loc]
+      action_list.push(direction)
     end
     return action_list.reverse
   end
