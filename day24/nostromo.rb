@@ -46,7 +46,7 @@ class HVAC
     @locations.each_index do |i|
       next if i == @locations.length - 1
       (i + 1..@locations.length - 1).each do |j|
-        @shortest_paths[[i,j]] = "distance from #{i} to #{j}"
+        @shortest_paths[[i,j]] = bfs(i,j).length
       end
     end
   end
@@ -63,7 +63,7 @@ class HVAC
       if subtree_root == locations[dest]
         return construct_path(subtree_root, meta)
       end
-      valid_moves = @grid.find_valid_moves(*subtree_root)
+      valid_moves = find_valid_moves(*subtree_root)
       valid_moves.each do |i|
         move = next_space(subtree_root, i)
         next if closed_set.index(move)
