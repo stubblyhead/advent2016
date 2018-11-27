@@ -88,6 +88,15 @@ class HVAC
 end
 
 lines = File.readlines('./testcase', :chomp => true)
-mygrid = HVAC.new(lines)
-mygrid.find_shortest_paths
-true
+nostromo = HVAC.new(lines)
+nostromo.find_shortest_paths
+
+shortest_tour = Float::INFINITY
+(1..nostromo.locations.length-1).to_a.permutation.each do |i|
+  this_tour = 0
+  this_tour += nostromo.shortest_paths[[0,i[0]]]
+  (0..i.length-2).each { |j| this_tour += nostromo.shortest_paths[[i[j],i[j+1]].sort] }
+  shortest_tour = [shortest_tour, this_tour].min
+end
+
+puts shortest_tour
