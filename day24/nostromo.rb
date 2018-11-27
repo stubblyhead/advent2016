@@ -1,5 +1,5 @@
-require 'pry'
-binding.pry
+# require 'pry'
+# binding.pry
 
 class HVAC
   attr_reader :grid, :shortest_paths, :locations
@@ -87,7 +87,7 @@ class HVAC
   end
 end
 
-lines = File.readlines('./testcase', :chomp => true)
+lines = File.readlines('./input', :chomp => true)
 nostromo = HVAC.new(lines)
 nostromo.find_shortest_paths
 
@@ -99,4 +99,4 @@ shortest_tour = Float::INFINITY
   shortest_tour = [shortest_tour, this_tour].min
 end
 
-puts shortest_tour
+puts "#{shortest_tour} moves to start at 0 and visit each location once"
