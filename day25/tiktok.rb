@@ -80,7 +80,7 @@ class Processor
     until @pointer >= @instructions.length
       self.send(*@instructions[@pointer].split)
       @number_of_ops += 1
-      break if @number_of_ops > 21600
+      break if @number_of_ops > 100000
       #puts "#{@registers}  @instructions[#{@pointer}] => #{@instructions[@pointer]}"
     end
   end
@@ -89,7 +89,7 @@ end
 def run(i)
   keypad = Processor.new(File.readlines('./input', :chomp=>true), i)
   keypad.run
-  puts keypad.clock
+  puts "#{i} => #{keypad.clock}"
 end
 
-run(2)
+(1..10).each { |i| run(i) }
