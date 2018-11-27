@@ -96,7 +96,8 @@ shortest_tour = Float::INFINITY
   this_tour = 0
   this_tour += nostromo.shortest_paths[[0,i[0]]]
   (0..i.length-2).each { |j| this_tour += nostromo.shortest_paths[[i[j],i[j+1]].sort] }
+  this_tour += nostromo.shortest_paths[[0,i[-1]]]
   shortest_tour = [shortest_tour, this_tour].min
 end
 
-puts "#{shortest_tour} moves to start at 0 and visit each location once"
+puts "#{shortest_tour} moves to start at 0 and visit each location once, then return to 0"
