@@ -74,13 +74,14 @@ class Processor
 
   def out(x)
     @clock += @registers[x].to_s
+    @pointer += 1
   end
 
   def run
     until @pointer >= @instructions.length
       self.send(*@instructions[@pointer].split)
       @number_of_ops += 1
-      break if @number_of_ops > 100000
+      break if @clock.length > 20
       #puts "#{@registers}  @instructions[#{@pointer}] => #{@instructions[@pointer]}"
     end
   end
@@ -89,7 +90,15 @@ end
 def run(i)
   keypad = Processor.new(File.readlines('./input', :chomp=>true), i)
   keypad.run
-  puts "#{i} => #{keypad.clock}"
+  return keypad.clock #if keypad.clock.match?(/(01)|(10)/)
+end
+input = nil
+(0..Float::INFINITY).each do |i|
+  clock = run(i)
+  unless clock.match?(/(\d)\1/)
+    input = i
+    break
+  end
 end
 
-(1..10).each { |i| run(i) }
+puts input
